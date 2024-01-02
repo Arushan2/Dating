@@ -117,7 +117,7 @@ def developer_page():
     password = st.text_input("Password of admin", type="password")
 
     if st.button("Login"):
-        if email == "admin@example.com" and hash_password(password) == hash_password("adminpassword"):
+        if email == "Rockarush2@gmail.com" and password == "Arush@2003":
             st.success("Login successful!")
             st.session_state.logged_in = True
         else:
