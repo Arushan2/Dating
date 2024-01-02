@@ -90,22 +90,28 @@ def login_page():
         else:
             st.error("Invalid email or password")
 
-def deleloper_page():
+def developer_page():
     st.header("Login As Admin")
+
+    # Initialize session states
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
 
     email = st.text_input("Email of admin")
     password = st.text_input("Password of admin", type="password")
 
     if st.button("Login"):
-        if ((email=="Rockarush2@gmail.com")&(password=="Arush@2003")):
+        if email == "Rockarush2@gmail.com" and password == "Arush@2003":
             st.success("Login successful!")
-            # Additional actions after successful login
-            button=st.button("Download details as JSON")
-            if button:
-                with open("user_data.json", "r") as file:
-                    st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+            st.session_state.logged_in = True
         else:
             st.error("Invalid email or password")
+            st.session_state.logged_in = False
+
+    if st.session_state.logged_in:
+        # Button for downloading JSON file
+        with open("user_data.json", "r") as file:
+            st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
 
 # Run the main application
 if __name__ == "__main__":
