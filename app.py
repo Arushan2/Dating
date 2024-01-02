@@ -38,7 +38,7 @@ def main():
     elif page == "Login":
         login_page()
     elif page== "Developer Options":
-        deleloper_page()
+        developer_page()
 
 def register_page():
 
