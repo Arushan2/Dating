@@ -104,8 +104,8 @@ def deleloper_page():
             if button:
                 with open("user_data.json", "r") as file:
                     st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
-            else:
-                st.error("Invalid email or password")
+        else:
+            st.error("Invalid email or password")
 
 # Run the main application
 if __name__ == "__main__":
