@@ -57,4 +57,4 @@ if st.button("Register"):
 button=st.button("Download details as JSON")
 if button:
     with open(file_name1, "r") as file:
-        st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+        st.download_button(label="Download JSON", data=file, file_name1="user_data.json", mime="application/json")
