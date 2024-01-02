@@ -51,10 +51,15 @@ if st.button("Register"):
     if not passwords_match:
         st.error("Passwords do not match. Please re-enter matching passwords.")
     else:
-        expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
-        expenses2.append({"email":email,"password":password})
-        st.write("Sucessfuly Registered")
-button=st.button("Download details as JSON")
-if button:
+        expenses1.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "image": user_image})
+        expenses2.append({"email": email, "password": password})
+        save_details(file_name1, expenses1)  # Save the updated details
+        save_details(file_name2, expenses2)
+        st.success("Successfully Registered")
+
+# Download details as JSON button logic
+if st.button("Download details as JSON"):
+    # Load the file content as a string
     with open(file_name1, "r") as file:
-        st.download_button(label="Download JSON", data=file, file_name1="user_data.json", mime="application/json")
+        json_data = file.read()
+    st.download_button(label="Download JSON", data=json_data, file_name="user_data.json", mime="application/json")
