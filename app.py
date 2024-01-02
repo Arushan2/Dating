@@ -76,58 +76,25 @@ def register_page():
     expenses1 = load_details(file_name1)
     expenses2 = load_details(file_name2)
 
-    # Initialize session state for each input field
-    if 'name' not in st.session_state:
-        st.session_state['name'] = ''
-    if 'age' not in st.session_state:
-        st.session_state['age'] = 0
-    if 'sex' not in st.session_state:
-        st.session_state['sex'] = 'Male'
-    if 'job_field' not in st.session_state:
-        st.session_state['job_field'] = 'Academic'
-    if 'dob' not in st.session_state:
-        st.session_state['dob'] = None
-    if 'user_image' not in st.session_state:
-        st.session_state['user_image'] = None
-    if 'email' not in st.session_state:
-        st.session_state['email'] = ''
-    if 'password' not in st.session_state:
-        st.session_state['password'] = ''
-    if 'confirm_password' not in st.session_state:
-        st.session_state['confirm_password'] = ''
-
-    # Input fields using session state
-    name = st.text_input("Enter your name:", value=st.session_state['name'])
-    age = st.number_input("Enter your age:", value=st.session_state['age'])
-    sex = st.radio("Select Your Sex", ["Male", "Female"], index=["Male", "Female"].index(st.session_state['sex']))
-    job_field = st.selectbox("What is your Job field", ('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'), index=('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical').index(st.session_state['job_field']))
-    dob = st.date_input("When's your birthday", value=st.session_state['dob'])
-    user_image = st.file_uploader("Upload your image", type=["jpg", "jpeg", "png"], accept_multiple_files=False)
-    email = st.text_input("Enter your E-Mail address", value=st.session_state['email'])
-    password = st.text_input("Create your password", type="password", value=st.session_state['password'])
-    confirm_password = st.text_input("Re-enter your password", type="password", value=st.session_state['confirm_password'])
+    name = st.text_input("Enter your name:")
+    age = st.number_input("Enter your age:", value=None)
+    sex = st.radio("Select Your Sex", ["Male", "Female"])
+    job_field = st.selectbox("What is your Job field", ('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'))
+    dob = st.date_input("When's your birthday")
+    user_image = st.file_uploader("Upload your image", type=["jpg", "jpeg", "png"])
+    email = st.text_input("Enter your E-Mail address")
+    password = st.text_input("Create your password", type="password")
+    confirm_password = st.text_input("Re-enter your password", type="password")
 
     if st.button("Register"):
         if password != confirm_password:
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
-            # Process registration and save data
             expenses1.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": user_image})
             expenses2.append({"email": email, "password": hash_password(password)})
             save_details(file_name1, expenses1)
             save_details(file_name2, expenses2)
             st.success("Successfully Registered")
-
-            # Resetting all the session state values
-            st.session_state['name'] = ''
-            st.session_state['age'] = 0
-            st.session_state['sex'] = 'Male'
-            st.session_state['job_field'] = 'Academic'
-            st.session_state['dob'] = None
-            st.session_state['user_image'] = None
-            st.session_state['email'] = ''
-            st.session_state['password'] = ''
-            st.session_state['confirm_password'] = ''
 
 def login_page():
     st.header("Login")
