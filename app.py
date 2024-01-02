@@ -54,3 +54,6 @@ if st.button("Register"):
         expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
         expenses2.append({"email":email,"password":password})
         st.write("Sucessfuly Registered")
+if st.button("Download details as JSON"):
+    with open(file_name1, "r") as file:
+        st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
