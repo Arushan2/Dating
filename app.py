@@ -31,12 +31,14 @@ def main():
     st.title("Mams")
 
     # Page navigation
-    page = st.sidebar.selectbox("Choose your page", ["Register", "Login"])
+    page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Developer Options"])
 
     if page == "Register":
         register_page()
     elif page == "Login":
         login_page()
+    elif page== "Developer Options":
+        deleloper_page()
 
 def register_page():
 
@@ -74,10 +76,7 @@ def register_page():
             save_details(file_name2, expenses2)
 
             st.write("Sucessfuly Registered")
-    button=st.button("Download details as JSON")
-    if button:
-        with open(file_name1, "r") as file:
-            st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+
 def login_page():
     st.header("Login")
 
@@ -90,6 +89,23 @@ def login_page():
             # Additional actions after successful login
         else:
             st.error("Invalid email or password")
+
+def deleloper_page():
+    st.header("Login As Admin")
+
+    email = st.text_input("Email of admin")
+    password = st.text_input("Password of admin", type="password")
+
+    if st.button("Login"):
+        if ((email=="Rockarush2@gmail.com")&(password=="Arush@2003")):
+            st.success("Login successful!")
+            # Additional actions after successful login
+            button=st.button("Download details as JSON")
+            if button:
+                with open("user_data.json", "r") as file:
+                    st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+            else:
+                st.error("Invalid email or password")
 
 # Run the main application
 if __name__ == "__main__":
