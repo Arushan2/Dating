@@ -2,7 +2,7 @@ import streamlit as st
 import json
 import os
 import hashlib
-
+import base64
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
     try:
@@ -75,6 +75,8 @@ def register_page():
     file_name2 = "email_password_data.json"
     expenses1 = load_details(file_name1)
     expenses2 = load_details(file_name2)
+    users = load_details(file_name1)
+    credentials = load_details(file_name2)
 
     name = st.text_input("Enter your name:")
     age = st.number_input("Enter your age:", value=None)
@@ -90,10 +92,11 @@ def register_page():
         if password != confirm_password:
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
-            expenses1.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": user_image})
-            expenses2.append({"email": email, "password": hash_password(password)})
-            save_details(file_name1, expenses1)
-            save_details(file_name2, expenses2)
+            image_string = base64.b64encode(user_image.getvalue()).decode() if user_image else None
+            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string})
+            credentials.append({"email": email, "password": hash_password(password)})
+            save_details(file_name1, users)
+            save_details(file_name2, credentials)
             st.success("Successfully Registered")
 
 def login_page():
