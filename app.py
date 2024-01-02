@@ -70,9 +70,7 @@ def register_page():
         else:
             expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
             expenses2.append({"email":email,"password":password})
-            save_details(file_name1, expenses1)
-            save_details(file_name2, expenses2)
-
+            
             st.write("Sucessfuly Registered")
     button=st.button("Download details as JSON")
     if button:
