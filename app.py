@@ -53,3 +53,4 @@ if st.button("Register"):
     else:
         expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
         expenses2.append({"email":email,"password":password})
+        st.write("Sucessfuly Registered")
