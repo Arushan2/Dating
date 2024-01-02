@@ -26,6 +26,41 @@ def verify_login(email, password, file_name):
             return True
     return False
 # Main Streamlit application
+def load_details(file_name):
+    if os.path.exists(file_name):
+        with open(file_name, "r") as file:
+            return json.load(file)
+    return []
+
+# Function to find matches based on job field and age range
+def find_matches(user_data, age_range=5):
+    matches = []
+
+    # Iterate through each user
+    for i, user in enumerate(user_data):
+        for j, other_user in enumerate(user_data):
+            if i != j:
+                # Check if they are in the same job field
+                same_job_field = user['job_field'] == other_user['job_field']
+
+                # Check age difference
+                age_difference = abs(user['age'] - other_user['age'])
+
+                if same_job_field and age_difference <= age_range:
+                    matches.append((user, other_user))
+
+    return matches
+
+# Streamlit page layout for displaying matching details
+def show_matching_page(user_data_file):
+    user_data = load_details(user_data_file)
+    matches = find_matches(user_data)
+
+    st.title("Matching People's Details")
+    for user, match in matches:
+        st.subheader(f"{user['name']} matched with {match['name']}")
+        st.text(f"Job Field: {user['job_field']}")
+        st.text(f"Age: {user['age']} and {match['age']}")
 
 def main():
     st.title("Mams")
@@ -78,6 +113,7 @@ def register_page():
             st.write("Sucessfuly Registered")
 
 def login_page():
+    user_data_file = 'user_data.json'
     st.header("Login")
 
     email = st.text_input("Email")
@@ -87,6 +123,7 @@ def login_page():
         if verify_login(email, password, "email_password_data.json"):
             st.success("Login successful!")
             # Additional actions after successful login
+            show_matching_page(user_data_file)
         else:
             st.error("Invalid email or password")
 
