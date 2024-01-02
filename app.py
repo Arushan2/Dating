@@ -105,7 +105,7 @@ def register_page():
         if not passwords_match:
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
-            expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
+            expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob),"job_field":job_field, "image": user_image})
             expenses2.append({"email":email,"password":password})
             save_details(file_name1, expenses1)
             save_details(file_name2, expenses2)
