@@ -41,3 +41,23 @@ dob = st.date_input("When's your birthday")
 
 # Upload user image
 user_image = st.file_uploader("Upload your image", type=["jpg", "jpeg", "png"])
+email = st.text_input("Enter your E-Mail address")
+password = st.text_input("Create your password", type="password")
+confirm_password = st.text_input("Re-enter your password", type="password")
+
+# Check if passwords match
+passwords_match = password == confirm_password
+if st.button("Register"):
+    if not passwords_match:
+        st.error("Passwords do not match. Please re-enter matching passwords.")
+    else:
+        expenses1.append({"name":name,"age": age , "sex":sex, "dob": str(dob), "image": user_image})
+        expenses2.append({"email":email,"password":password})
+
+# Download expenses as JSON
+if st.button("Download details as JSON"):
+    with open(file_name1, "r") as file:
+        st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+if st.button("Download password as JSON"):
+    with open(file_name2, "r") as file:
+        st.download_button(label="Download JSON", data=file, file_name="email_password_data.json", mime="application/json")
