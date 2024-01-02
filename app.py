@@ -16,7 +16,7 @@ def load_details(file_name):
 
 # Function to save expenses to a JSON file
 def save_details(file_name, expenses):
-    with open(file_name, "w") as file:
+    with open(file_name, "a") as file:
         json.dump(expenses, file)
 
 # Main Streamlit application
