@@ -51,13 +51,19 @@ def find_matches(user_data, age_range=5):
     return matches
 
 def show_user_details(user):
-    st.title(f"Welcome, {user['name']}")
-    st.image(user['image'], caption='Profile Picture', use_column_width=True)
-    st.text(f"Name: {user['name']}")
-    st.text(f"Age: {user['age']}")
-    st.text(f"Sex: {user['sex']}")
-    st.text(f"Job Field: {user['job_field']}")
-    # Add more details as needed
+    if user and 'name' in user:
+        st.title(f"Welcome, {user['name']}")
+        if 'image' in user and user['image']:  # Check if image key exists and is not None
+            st.image(user['image'], caption='Profile Picture', use_column_width=True)
+        st.text(f"Name: {user['name']}")
+        st.text(f"Age: {user.get('age', 'Not provided')}")
+        st.text(f"Sex: {user.get('sex', 'Not provided')}")
+        st.text(f"Job Field: {user.get('job_field', 'Not provided')}")
+        st.text(f"Email: {user.get('email', 'Not provided')}")
+        # Add more details as needed
+    else:
+        st.error("User details not found.")
+
 
 
 
