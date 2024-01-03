@@ -126,13 +126,14 @@ def login_page():
         if logged_in_email:
             st.success("Login successful!")
             # Find the user details
-            user = find_user_by_email(email, "user_data.json")
+            user = find_user_by_email(email, "user_data.json")  # Corrected file name here
             if user:
                 show_user_details(user)
             else:
                 st.error("User details not found.")
         else:
             st.error("Invalid email or password")
+
 
 def find_user_by_email(email, file_name):
     users = load_details(file_name)
