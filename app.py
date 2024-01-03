@@ -117,6 +117,7 @@ def login_page():
 
     if st.button("Login"):
         user = verify_login(email, password, "email_password_data.json")
+        print("User data returned from verify_login:", user)
         if user:
             st.success("Login successful!")
             show_user_details(user)
