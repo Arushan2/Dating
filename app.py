@@ -79,13 +79,41 @@ def show_matching_page(user_data_file):
 
 def main():
     st.title("Mams")
-    page = st.sidebar.selectbox("Choose your page", ["Register", "Login", "Developer Options"])
+    page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Find Date Partner" , "Developer Options"])
     if page == "Register":
         register_page()
     elif page == "Login":
         login_page()
     elif page == "Developer Options":
         developer_page()
+    elif page == "Find Date Partner":
+        find_date_partner_page()
+
+def find_date_partner_page():
+    st.title("Find Your Date Partner")
+    users = load_details("user_data.json")
+    
+    # User inputs for search criteria
+    search_job_field = st.selectbox("Select Job Field", ('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'))
+    search_age = st.number_input("Enter Age", min_value=18, max_value=100, value=25)
+
+    if st.button("Search"):
+        matches = find_date_matches(users, search_job_field, search_age)
+        if matches:
+            for match in matches:
+                st.subheader(f"{match['name']}")
+                st.text(f"Age: {match['age']}")
+                st.text(f"Job Field: {match['job_field']}")
+                st.text(f"Email: {match['email']}")
+        else:
+            st.warning("No matches found.") 
+
+def find_date_matches(user_data, job_field, age):
+    matches = []
+    for user in user_data:
+        if user.get('job_field') == job_field and user.get('age') == age:
+            matches.append(user)
+    return matches   
 
 def register_page():
     file_name1 = "user_data.json"
