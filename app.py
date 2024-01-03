@@ -122,13 +122,25 @@ def login_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        user = verify_login(email, password, "email_password_data.json")
-        print("User data returned from verify_login:", user)
-        if user:
+        logged_in_email = verify_login(email, password, "email_password_data.json")
+        if logged_in_email:
             st.success("Login successful!")
-            show_user_details(user)
+            # Find the user details
+            user = find_user_by_email(logged_in_email, "user_data.json")
+            if user:
+                show_user_details(user)
+            else:
+                st.error("User details not found.")
         else:
             st.error("Invalid email or password")
+
+def find_user_by_email(email, file_name):
+    users = load_details(file_name)
+    for user in users:
+        if user.get('email') == email:
+            return user
+    return None
+
 
 
 def developer_page():
