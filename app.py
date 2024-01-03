@@ -93,7 +93,7 @@ def register_page():
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
             image_string = base64.b64encode(user_image.getvalue()).decode() if user_image else None
-            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string})
+            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string ,"email":email})
             credentials.append({"email": email, "password": hash_password(password)})
             save_details(file_name1, users)
             save_details(file_name2, credentials)
