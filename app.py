@@ -31,8 +31,9 @@ def verify_login(email, password, file_name):
     hashed_password = hash_password(password)
     for user in users:
         if user['email'] == email and user['password'] == hashed_password:
-            return True
-    return False
+            return user  # Return the user data
+    return None
+
 
 # Function to find matches based on job field and age range
 # Function to find matches based on job field and age range
@@ -48,6 +49,16 @@ def find_matches(user_data, age_range=5):
                 if same_job_field and age_difference <= age_range:
                     matches.append((user, other_user))
     return matches
+
+def show_user_details(user):
+    st.title(f"Welcome, {user['name']}")
+    st.image(user['image'], caption='Profile Picture', use_column_width=True)
+    st.text(f"Name: {user['name']}")
+    st.text(f"Age: {user['age']}")
+    st.text(f"Sex: {user['sex']}")
+    st.text(f"Job Field: {user['job_field']}")
+    # Add more details as needed
+
 
 
 # Streamlit page layout for displaying matching details
@@ -105,11 +116,13 @@ def login_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if verify_login(email, password, "email_password_data.json"):
+        user = verify_login(email, password, "email_password_data.json")
+        if user:
             st.success("Login successful!")
-            show_matching_page('user_data.json')
+            show_user_details(user)
         else:
             st.error("Invalid email or password")
+
 
 def developer_page():
     st.header("Login As Admin")
