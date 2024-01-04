@@ -61,6 +61,9 @@ def show_user_details(user):
         st.text(f"Job Field: {user.get('job_field', 'Not provided')}")
         st.text(f"Email: {user.get('email', 'Not provided')}")
         # Add more details as needed
+        st.text(f"Religion: {user.get('religion', 'Not provided')}")
+        hobbies = ", ".join(user.get('hobbies', []))  # Join the list of hobbies into a string
+        st.text(f"Hobbies: {hobbies if hobbies else 'Not provided'}")
     else:
         st.error("User details not found.")
 
@@ -130,6 +133,8 @@ def register_page():
     dob = st.date_input("When's your birthday")
     user_image = st.file_uploader("Upload your image", type=["jpg", "jpeg", "png"])
     email = st.text_input("Enter your E-Mail address")
+    religion = st.selectbox("Select Your Religion", ["Hindu", "Christian", "Muslim", "Buddhist"])
+    hobbies = st.multiselect("Select Your Hobbies", ['Reading', 'Writing', 'Sports', 'Cooking', 'Art', 'Music', 'Travel', 'Gaming', 'Photography'])
     password = st.text_input("Create your password", type="password")
     confirm_password = st.text_input("Re-enter your password", type="password")
 
@@ -138,7 +143,7 @@ def register_page():
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
             image_string = base64.b64encode(user_image.getvalue()).decode() if user_image else None
-            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string ,"email":email})
+            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string ,"email":email,"religion":religion,"hobbies":hobbies})
             credentials.append({"email": email, "password": hash_password(password)})
             save_details(file_name1, users)
             save_details(file_name2, credentials)
