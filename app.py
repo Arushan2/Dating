@@ -136,12 +136,59 @@ def main():
         find_date_partner_page()
 
 def find_date_partner_page():
-    # Session state variables initialize pannuthu
-    call_gpt3
-    if 'full_prompt' not in st.session_state:
-        st.session_state.full_prompt = "Find the matching person for date partner"
-    if 'gpt3_response' not in st.session_state:
-        st.session_state.gpt3_response = ""
+    st.title("Find Your Date Partner")
+    user_data_file = "user_data.json"
+    user_data = load_details(user_data_file)
+
+    # Display user's details if logged in
+    if 'logged_in_user_email' in st.session_state:
+        logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
+        if logged_in_user:
+            st.subheader(f"Welcome, {logged_in_user['name']}")
+            show_user_details(logged_in_user)
+        else:
+            st.error("User details not found. Please log in.")
+            return
+    else:
+        st.error("Please log in to find a date partner.")
+        return
+
+    st.subheader("Find Matches Based on Your Preferences")
+    # Add additional preference options if necessary
+    preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
+
+    if st.button("Find Matches"):
+        # Call GPT-3 to generate matching profiles based on user's preferences
+        response = call_gpt3_to_find_matches(logged_in_user, preference)
+        if response:
+            st.success("Here are your matches:")
+            st.write(response)
+        else:
+            st.error("No matches found or there was an error in fetching matches.")
+
+def call_gpt3_to_find_matches(user, preference):
+    # Set up your GPT-3 API key
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+
+    # Prepare the prompt for GPT-3 using the user's details and their preference
+    prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
+              f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
+              f"find potential matches who are interested in {preference}.")
+
+    try:
+        # Call to the GPT-3 API
+        response = openai.Completion.create(
+            model="text-davinci-003",  # You can change the model version as needed
+            prompt=prompt,
+            max_tokens=150  # Adjust the number of tokens as needed
+        )
+
+        # Extracting and returning the text response
+        return response.choices[0].text.strip()
+    except Exception as e:
+        print(f"Error in GPT-3 call: {e}")
+        return None
+
 
 def register_page():
     file_name1 = "user_data.json"
