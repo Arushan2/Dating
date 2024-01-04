@@ -220,6 +220,8 @@ def developer_page():
     if st.session_state.logged_in:
         with open("user_data.json", "r") as file:
             st.download_button(label="Download JSON", data=file, file_name="user_data.json", mime="application/json")
+        with open("image_email_data.json", "r") as file:
+            st.download_button(label="Download Image and Email Data (JSON)", data=file, file_name="image_email_data.json", mime="application/json")
 
 if __name__ == "__main__":
     main()
