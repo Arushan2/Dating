@@ -155,9 +155,9 @@ def login_page():
             user = find_user_by_email(email, "user_data.json")  # Corrected file name here
             if user:
                 show_user_details(user)
-                match=st.button("Find your Partner")
-                if(match):
-                    find_date_partner_page()
+                # match=st.button("Find your Partner")
+                # if(match):
+                find_date_partner_page()
             else:
                 st.error("User details not found.")
         else:
