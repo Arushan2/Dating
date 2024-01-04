@@ -196,7 +196,6 @@ def login_page():
             # Find the user details
             user = find_user_by_email(email, "user_data.json")  # Corrected file name here
             if user:
-                show_user_details(user)
                 image_data = load_image_by_email(email, "image_email_data.json")
                 if image_data and image_data.get('image'):
                     user_image = image_data['image']
@@ -204,6 +203,7 @@ def login_page():
                     st.image(base64.b64decode(user_image), caption='Profile Picture', use_column_width=True)
                 else:
                     st.warning("User image not found.")
+                show_user_details(user)
             else:
                 st.error("User details not found.")
         else:
