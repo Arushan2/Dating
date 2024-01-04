@@ -103,14 +103,14 @@ def load_image_by_email(email, file_name):
     except Exception as e:
         st.error(f"Error loading image: {e}")
     return None
-def call_gpt3(prompt):
+def call_gpt3():
     openai.api_key = os.environ['OPENAI_API_KEY']  # Environment variable-l irunthu API key get pannuthu
     client = OpenAI()  # OpenAI client create pannuthu
 
     response = client.completions.create(
         model="gpt-3.5-turbo-instruct",  # GPT-3.5 model specify pannuthu
-        prompt=prompt,  # User kudutha prompt pass pannuthu
-        max_tokens = 1000  # Maximum number of tokens (words) specify pannuthu
+        prompt="Find the matching people from this user from user details",  # User kudutha prompt pass pannuthu
+        max_tokens = 100  # Maximum number of tokens (words) specify pannuthu
     )
 
 # Streamlit page layout for displaying matching details
@@ -137,6 +137,7 @@ def main():
 
 def find_date_partner_page():
     # Session state variables initialize pannuthu
+    call_gpt3
     if 'full_prompt' not in st.session_state:
         st.session_state.full_prompt = "Find the matching person for date partner"
     if 'gpt3_response' not in st.session_state:
