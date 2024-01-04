@@ -229,12 +229,15 @@ def login_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        logged_in_email = verify_login(email, password, "email_password_data.json")
-        if logged_in_email:
+        user = verify_login(email, password, "email_password_data.json")
+        if user:
             st.success("Login successful!")
+            # Store the logged-in user's email in the session state
+            st.session_state.logged_in_user_email = email
+
             # Find the user details
-            user = find_user_by_email(email, "user_data.json")  # Corrected file name here
-            if user:
+            user_details = find_user_by_email(email, "user_data.json")
+            if user_details:
                 image_data = load_image_by_email(email, "image_email_data.json")
                 if image_data and image_data.get('image'):
                     user_image = image_data['image']
@@ -242,12 +245,12 @@ def login_page():
                     st.image(base64.b64decode(user_image), caption='Profile Picture', use_column_width=True)
                 else:
                     st.warning("User image not found.")
-                show_user_details(user)
-                
+                show_user_details(user_details)
             else:
                 st.error("User details not found.")
         else:
             st.error("Invalid email or password")
+
 
 
 def find_user_by_email(email, file_name):
