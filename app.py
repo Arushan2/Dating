@@ -139,17 +139,14 @@ def find_date_partner_page():
     user_data = load_details(user_data_file)
 
     # Display user's details if logged in
-    if 'logged_in_user_email' in st.session_state:
-        logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
-        if logged_in_user:
-            st.subheader(f"Welcome, {logged_in_user['name']}")
-            show_user_details(logged_in_user)
-        else:
-            st.error("User details not found. Please log in.")
-            return
+    logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
+    if logged_in_user:
+        st.subheader(f"Welcome, {logged_in_user['name']}")
+        show_user_details(logged_in_user)
     else:
-        st.error("Please log in to find a date partner.")
+        st.error("User details not found. Please log in.")
         return
+    return
 
     st.subheader("Find Matches Based on Your Preferences")
     # Add additional preference options if necessary
