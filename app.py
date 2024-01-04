@@ -90,6 +90,17 @@ def show_user_details(user):
         st.error("User details not found.")
 
 
+def load_image_by_email(email, file_name):
+    try:
+        if os.path.exists(file_name):
+            with open(file_name, "r") as file:
+                image_email_data = json.load(file)
+            for data in image_email_data:
+                if data.get('email') == email:
+                    return data
+    except Exception as e:
+        st.error(f"Error loading image: {e}")
+    return None
 
 
 # Streamlit page layout for displaying matching details
@@ -186,6 +197,13 @@ def login_page():
             user = find_user_by_email(email, "user_data.json")  # Corrected file name here
             if user:
                 show_user_details(user)
+                image_data = load_image_by_email(email, "image_email_data.json")
+                if image_data and image_data.get('image'):
+                    user_image = image_data['image']
+                    # Convert base64 string back to image and display
+                    st.image(base64.b64decode(user_image), caption='Profile Picture', use_column_width=True)
+                else:
+                    st.warning("User image not found.")
             else:
                 st.error("User details not found.")
         else:
