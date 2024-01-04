@@ -92,41 +92,28 @@ def main():
 def find_date_partner_page():
     st.title("Find Your Date Partner")
     users = load_details("user_data.json")
-
-    # Enhanced search filters
+    
+    # User inputs for search criteria
     search_job_field = st.selectbox("Select Job Field", ('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'))
     search_age = st.number_input("Enter Age", min_value=18, max_value=100, value=25)
-    search_interest = st.multiselect("Select Interests", ['Music', 'Sports', 'Reading', 'Travel', 'Tech', 'Art'])
 
     if st.button("Search"):
-        matches = find_date_matches(users, search_job_field, search_age, search_interest)
+        matches = find_date_matches(users, search_job_field, search_age)
         if matches:
             for match in matches:
-                col1, col2 = st.columns([1, 3])
-                with col1:
-                    if match['image']:
-                        st.image(base64.b64decode(match['image']), width=100)
-                with col2:
-                    st.subheader(f"{match['name']}")
-                    st.text(f"Age: {match['age']}")
-                    st.text(f"Job Field: {match['job_field']}")
-                    st.text(f"Interests: {', '.join(match.get('interests', []))}")
-                    st.text(f"Email: {match['email']}")
-                    if 'like_button' not in st.session_state:
-                        st.session_state['like_button'] = False
-                    if st.button('Like', key=match['email']):
-                        st.session_state['like_button'] = True
-                        # Add logic to handle the 'Like' action
+                st.subheader(f"{match['name']}")
+                st.text(f"Age: {match['age']}")
+                st.text(f"Job Field: {match['job_field']}")
+                st.text(f"Email: {match['email']}")
         else:
             st.warning("No matches found.") 
 
-def find_date_matches(user_data, job_field, age, interests):
+def find_date_matches(user_data, job_field, age):
     matches = []
     for user in user_data:
-        if user.get('job_field') == job_field and user.get('age') == age and set(interests).intersection(set(user.get('interests', []))):
+        if user.get('job_field') == job_field and user.get('age') == age:
             matches.append(user)
-    return matches
-
+    return matches   
 
 def register_page():
     file_name1 = "user_data.json"
