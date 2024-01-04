@@ -101,15 +101,7 @@ def load_image_by_email(email, file_name):
     except Exception as e:
         st.error(f"Error loading image: {e}")
     return None
-def update_user_details(updated_user, file_name):
-    users = load_details(file_name)
-    # Update user details in the list
-    for i, user in enumerate(users):
-        if user["email"] == updated_user["email"]:
-            users[i] = updated_user
-            break
-    # Save the updated list back to the file
-    save_details(file_name, users)
+
 
 # Streamlit page layout for displaying matching details
 # def show_matching_page(user_data_file):
@@ -212,24 +204,7 @@ def login_page():
                 else:
                     st.warning("User image not found.")
                 show_user_details(user)
-                if st.button("Edit Details"):
-                    # Display editable fields for user details
-                    with st.form(key="user_details_form"):
-                        new_name = st.text_input("Name", value=user.get("name", ""))
-                        new_age = st.number_input("Age", value=user.get("age", 18))
-                        new_sex = st.selectbox("Sex", ["Male", "Female"], index=["Male", "Female"].index(user.get("sex", "Male")))
-                        new_job_field = st.selectbox("Job Field", ['Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'], 
-                                                     index=['Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'].index(user.get("job_field", "Academic")))
-
-                        submit_button = st.form_submit_button("Submit Changes")
-                        if submit_button:
-                            # Update the user's details
-                            user["name"] = new_name
-                            user["age"] = new_age
-                            user["sex"] = new_sex
-                            user["job_field"] = new_job_field
-                            update_user_details(user, "user_data.json")
-                            st.success("User details updated successfully.")
+                
             else:
                 st.error("User details not found.")
         else:
