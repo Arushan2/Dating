@@ -125,15 +125,13 @@ def call_gpt3():
 
 def main():
     st.title("Mams")
-    page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Find Date Partner" , "Developer Options"])
+    page = st.sidebar.selectbox("Choose your page", ["Register", "Login" , "Developer Options"])
     if page == "Register":
         register_page()
     elif page == "Login":
         login_page()
     elif page == "Developer Options":
         developer_page()
-    elif page == "Find Date Partner":
-        find_date_partner_page()
 
 def find_date_partner_page():
     st.title("Find Your Date Partner")
@@ -240,6 +238,7 @@ def login_page():
                     user_image = image_data['image']
                     # Convert base64 string back to image and display
                     st.image(base64.b64decode(user_image), caption='Profile Picture', use_column_width=True)
+                    find_date_partner_page()
                 else:
                     st.warning("User image not found.")
                 show_user_details(user)
