@@ -125,13 +125,15 @@ def call_gpt3():
 
 def main():
     st.title("Mams")
-    page = st.sidebar.selectbox("Choose your page", ["Register", "Login" , "Developer Options"])
+    page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Find Date Partner" , "Developer Options"])
     if page == "Register":
         register_page()
     elif page == "Login":
         login_page()
     elif page == "Developer Options":
         developer_page()
+    elif page == "Find Date Partner":
+        find_date_partner_page()
 
 def find_date_partner_page():
     st.title("Find Your Date Partner")
@@ -139,14 +141,17 @@ def find_date_partner_page():
     user_data = load_details(user_data_file)
 
     # Display user's details if logged in
-    logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
-    if logged_in_user:
-        st.subheader(f"Welcome, {logged_in_user['name']}")
-        show_user_details(logged_in_user)
+    if 'logged_in_user_email' in st.session_state:
+        logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
+        if logged_in_user:
+            st.subheader(f"Welcome, {logged_in_user['name']}")
+            show_user_details(logged_in_user)
+        else:
+            st.error("User details not found. Please log in.")
+            return
     else:
-        st.error("User details not found. Please log in.")
+        st.error("Please log in to find a date partner.")
         return
-    return
 
     st.subheader("Find Matches Based on Your Preferences")
     # Add additional preference options if necessary
@@ -235,7 +240,6 @@ def login_page():
                     user_image = image_data['image']
                     # Convert base64 string back to image and display
                     st.image(base64.b64decode(user_image), caption='Profile Picture', use_column_width=True)
-                    find_date_partner_page()
                 else:
                     st.warning("User image not found.")
                 show_user_details(user)
