@@ -21,6 +21,28 @@ def save_details(file_name, details):
     except Exception as e:
         st.error(f"Error writing file: {e}")
 
+def save_image_and_email(user, file_name):
+    try:
+        # Extracting image and email data from the user dictionary
+        image_email_data = {
+            "email": user.get("email"),
+            "image": user.get("image")
+        }
+
+        # Load existing data or create a new list
+        if os.path.exists(file_name):
+            with open(file_name, "r") as file:
+                data = json.load(file)
+        else:
+            data = []
+
+        # Append new data and save to file
+        data.append(image_email_data)
+        with open(file_name, "w") as file:
+            json.dump(data, file)
+    except Exception as e:
+        st.error(f"Error in saving image and email: {e}")
+
 # Hashing function for password
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -121,6 +143,7 @@ def find_date_matches(user_data, job_field, age):
 def register_page():
     file_name1 = "user_data.json"
     file_name2 = "email_password_data.json"
+    file_name3 = "image_email_data.json"
     expenses1 = load_details(file_name1)
     expenses2 = load_details(file_name2)
     users = load_details(file_name1)
@@ -143,10 +166,11 @@ def register_page():
             st.error("Passwords do not match. Please re-enter matching passwords.")
         else:
             image_string = base64.b64encode(user_image.getvalue()).decode() if user_image else None
-            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field, "image": image_string ,"email":email,"religion":religion,"hobbies":hobbies})
+            users.append({"name": name, "age": age, "sex": sex, "dob": str(dob), "job_field": job_field,"email":email,"religion":religion,"hobbies":hobbies})
             credentials.append({"email": email, "password": hash_password(password)})
             save_details(file_name1, users)
             save_details(file_name2, credentials)
+            save_image_and_email({"email": email,"image": base64.b64encode(user_image.getvalue()).decode() if user_image else None}, file_name3)
             st.success("Successfully Registered")
 
 def login_page():
