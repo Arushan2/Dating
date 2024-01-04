@@ -3,6 +3,8 @@ import json
 import os
 import hashlib
 import base64
+import openai  # OpenAI library GPT-3.5 use pannurathukku
+from openai import OpenAI 
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
     try:
@@ -101,7 +103,15 @@ def load_image_by_email(email, file_name):
     except Exception as e:
         st.error(f"Error loading image: {e}")
     return None
+def call_gpt3(prompt):
+    openai.api_key = os.environ['OPENAI_API_KEY']  # Environment variable-l irunthu API key get pannuthu
+    client = OpenAI()  # OpenAI client create pannuthu
 
+    response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",  # GPT-3.5 model specify pannuthu
+        prompt=prompt,  # User kudutha prompt pass pannuthu
+        max_tokens = 1000  # Maximum number of tokens (words) specify pannuthu
+    )
 
 # Streamlit page layout for displaying matching details
 # def show_matching_page(user_data_file):
@@ -126,30 +136,11 @@ def main():
         find_date_partner_page()
 
 def find_date_partner_page():
-    st.title("Find Your Date Partner")
-    users = load_details("user_data.json")
-    
-    # User inputs for search criteria
-    search_job_field = st.selectbox("Select Job Field", ('Academic', 'IT', 'Real Estate Business', 'Local Business', 'Salesman', 'Manager', 'Medical'))
-    search_age = st.number_input("Enter Age", min_value=18, max_value=100, value=25)
-
-    if st.button("Search"):
-        matches = find_date_matches(users, search_job_field, search_age)
-        if matches:
-            for match in matches:
-                st.subheader(f"{match['name']}")
-                st.text(f"Age: {match['age']}")
-                st.text(f"Job Field: {match['job_field']}")
-                st.text(f"Email: {match['email']}")
-        else:
-            st.warning("No matches found.") 
-
-def find_date_matches(user_data, job_field, age):
-    matches = []
-    for user in user_data:
-        if user.get('job_field') == job_field and user.get('age') == age:
-            matches.append(user)
-    return matches   
+    # Session state variables initialize pannuthu
+    if 'full_prompt' not in st.session_state:
+        st.session_state.full_prompt = "Find the matching person for date partner"
+    if 'gpt3_response' not in st.session_state:
+        st.session_state.gpt3_response = ""
 
 def register_page():
     file_name1 = "user_data.json"
