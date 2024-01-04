@@ -36,19 +36,19 @@ def verify_login(email, password, file_name):
 
 
 # Function to find matches based on job field and age range
-# Function to find matches based on job field and age range
-def find_matches(user_data, age_range=5):
-    matches = []
-    for i, user in enumerate(user_data):
-        if 'job_field' not in user or 'age' not in user or not isinstance(user['age'], int):
-            continue  # Skip users without job_field or age or if age is not an integer
-        for j, other_user in enumerate(user_data):
-            if i != j and 'job_field' in other_user and 'age' in other_user and isinstance(other_user['age'], int):
-                same_job_field = user['job_field'] == other_user['job_field']
-                age_difference = abs(user['age'] - other_user['age'])
-                if same_job_field and age_difference <= age_range:
-                    matches.append((user, other_user))
-    return matches
+# # Function to find matches based on job field and age range
+# def find_matches(user_data, age_range=5):
+#     matches = []
+#     for i, user in enumerate(user_data):
+#         if 'job_field' not in user or 'age' not in user or not isinstance(user['age'], int):
+#             continue  # Skip users without job_field or age or if age is not an integer
+#         for j, other_user in enumerate(user_data):
+#             if i != j and 'job_field' in other_user and 'age' in other_user and isinstance(other_user['age'], int):
+#                 same_job_field = user['job_field'] == other_user['job_field']
+#                 age_difference = abs(user['age'] - other_user['age'])
+#                 if same_job_field and age_difference <= age_range:
+#                     matches.append((user, other_user))
+#     return matches
 
 def show_user_details(user):
     if user and 'name' in user:
@@ -68,14 +68,14 @@ def show_user_details(user):
 
 
 # Streamlit page layout for displaying matching details
-def show_matching_page(user_data_file):
-    user_data = load_details(user_data_file)
-    matches = find_matches(user_data)
-    st.title("Matching People's Details")
-    for user, match in matches:
-        st.subheader(f"{user['name']} matched with {match['name']}")
-        st.text(f"Job Field: {user['job_field']}")
-        st.text(f"Age: {user['age']} and {match['age']}")
+# def show_matching_page(user_data_file):
+#     user_data = load_details(user_data_file)
+#     matches = find_matches(user_data)
+#     st.title("Matching People's Details")
+#     for user, match in matches:
+#         st.subheader(f"{user['name']} matched with {match['name']}")
+#         st.text(f"Job Field: {user['job_field']}")
+#         st.text(f"Age: {user['age']} and {match['age']}")
 
 def main():
     st.title("Mams")
