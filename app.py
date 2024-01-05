@@ -174,7 +174,7 @@ def call_gpt3_to_find_matches(user, preference):
     try:
         # Call to the GPT-3 API
         response = openai.Completion.create(
-            engine="text-davinci-003",
+            model="gpt-3.5-turbo-instruct",
             prompt=prompt,
             max_tokens=150
         )
