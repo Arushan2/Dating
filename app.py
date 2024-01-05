@@ -160,6 +160,7 @@ def find_date_partner_page():
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
         response = call_gpt3_to_find_matches(logged_in_user, preference)
+        st.write(response)
         if response:
             st.success("Here are your matches:")
             st.write(response)
