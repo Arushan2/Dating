@@ -173,7 +173,7 @@ def call_gpt3_to_find_matches(user, preference):
     # Prepare the prompt for GPT-3 using the user's details and their preference
     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-              f"find potential matches who are interested in {preference}.")
+              f"find dating partner with {preference} , take the data from user_details.json.")
 
     try:
         # Call to the GPT-3 API
