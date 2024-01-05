@@ -1,2 +1,2 @@
 streamlit
-pip install openai==3.5
+openai
