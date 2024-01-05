@@ -103,15 +103,6 @@ def load_image_by_email(email, file_name):
     except Exception as e:
         st.error(f"Error loading image: {e}")
     return None
-def call_gpt3():
-    openai.api_key = os.environ['OPENAI_API_KEY']  # Environment variable-l irunthu API key get pannuthu
-    client = OpenAI()  # OpenAI client create pannuthu
-
-    response = client.completions.create(
-        model="gpt-3.5-turbo-instruct",  # GPT-3.5 model specify pannuthu
-        prompt="Find the matching people from this user from user details",  # User kudutha prompt pass pannuthu
-        max_tokens = 100  # Maximum number of tokens (words) specify pannuthu
-    )
 
 # Streamlit page layout for displaying matching details
 # def show_matching_page(user_data_file):
@@ -178,7 +169,7 @@ def call_gpt3_to_find_matches(user, preference):
     try:
         # Call to the GPT-3 API
         response = openai.Completion.create(
-            model="text-davinci-003",  # You can change the model version as needed
+            engine="text-davinci-003",  # You can change the model version as needed
             prompt=prompt,
             max_tokens=150  # Adjust the number of tokens as needed
         )
