@@ -160,7 +160,6 @@ def find_date_partner_page():
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
         response = call_gpt3_to_find_matches(logged_in_user, preference)
-        st.write(response)
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -174,7 +173,7 @@ def call_gpt3_to_find_matches(user, preference):
     # Prepare the prompt for GPT-3 using the user's details and their preference
     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-              f"find dating partner with {preference} , take the data from user_details.json.")
+              f"find potential matches who are interested in {preference}.")
 
     try:
         # Call to the GPT-3 API
