@@ -149,6 +149,7 @@ def find_date_partner_page():
     preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
 
     if st.button("Find Matches"):
+        print(os.getenv('OPENAI_API_KEY'))
         # Call GPT-3 to generate matching profiles based on user's preferences
         response = call_gpt3_to_find_matches(logged_in_user, preference)
         if response:
