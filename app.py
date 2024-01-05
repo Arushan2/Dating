@@ -149,7 +149,6 @@ def find_date_partner_page():
     preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
 
     if st.button("Find Matches"):
-        st.write(os.getenv('OPENAI_API_KEY'))
         # Call GPT-3 to generate matching profiles based on user's preferences
         response = call_gpt3_to_find_matches(logged_in_user, preference)
         if response:
@@ -162,7 +161,12 @@ def call_gpt3_to_find_matches(user, preference):
     # Set up your GPT-3 API key
     openai.api_key = os.getenv('OPENAI_API_KEY')
 
-    # Prepare the prompt for GPT-3 using the user's details and their preference
+    # Ensure API key is present
+    if not openai.api_key:
+        print("OpenAI API key not set.")
+        return None
+
+    # Prepare the prompt for GPT-3
     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
               f"find potential matches who are interested in {preference}.")
@@ -170,16 +174,21 @@ def call_gpt3_to_find_matches(user, preference):
     try:
         # Call to the GPT-3 API
         response = openai.Completion.create(
-            engine="text-davinci-003",  # You can change the model version as needed
+            engine="text-davinci-003",
             prompt=prompt,
-            max_tokens=150  # Adjust the number of tokens as needed
+            max_tokens=150
         )
 
-        # Extracting and returning the text response
-        return response.choices[0].text.strip()
+        # Check if the response is valid
+        if response and 'choices' in response and len(response.choices) > 0:
+            return response.choices[0].text.strip()
+        else:
+            print("Invalid response from GPT-3 API.")
+            return None
     except Exception as e:
         print(f"Error in GPT-3 call: {e}")
         return None
+
 
 
 def register_page():
