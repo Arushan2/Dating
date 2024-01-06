@@ -104,15 +104,6 @@ def load_image_by_email(email, file_name):
         st.error(f"Error loading image: {e}")
     return None
 
-# Streamlit page layout for displaying matching details
-# def show_matching_page(user_data_file):
-#     user_data = load_details(user_data_file)
-#     matches = find_matches(user_data)
-#     st.title("Matching People's Details")
-#     for user, match in matches:
-#         st.subheader(f"{user['name']} matched with {match['name']}")
-#         st.text(f"Job Field: {user['job_field']}")
-#         st.text(f"Age: {user['age']} and {match['age']}")
 
 def main():
     st.title("Mams")
