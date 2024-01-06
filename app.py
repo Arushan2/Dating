@@ -227,7 +227,6 @@ def login_page():
             # Store the logged-in user's email in the session state
             st.session_state.logged_in_user_email = email
 
-            # Find the user details
             user_details = find_user_by_email(email, "user_data.json")
             if user_details:
                 image_data = load_image_by_email(email, "image_email_data.json")
