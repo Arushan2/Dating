@@ -136,7 +136,6 @@ def find_date_partner_page():
         return
 
     st.subheader("Find Matches Based on Your Preferences")
-    # Add additional preference options if necessary
     preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
 
     if st.button("Find Matches"):
