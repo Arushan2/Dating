@@ -173,7 +173,6 @@ def call_gpt3_to_find_matches(user, preference):
             return response.choices[0].text.strip()
         else:
             print("Invalid response from GPT-3 API.")
-            return None
     except Exception as e:
         print(f"Error in GPT-3 call: {e}")
         return None
