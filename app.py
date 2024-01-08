@@ -145,7 +145,6 @@ def call_gpt3_to_find_matches(user, preference):
             return response.choices[0].message['content'].strip()
         else:
             print("Invalid response from GPT API.")
-            return None
     except Exception as e:
         print(f"Error in GPT call: {e}")
         return None
