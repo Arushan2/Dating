@@ -144,6 +144,7 @@ def find_date_partner_page():
             st.success("Here are your matches:")
             st.write(response)
         else:
+            st.write(response)
             st.error("No matches found or there was an error in fetching matches.")
 
 def call_gpt3_to_find_matches(user, preference):
