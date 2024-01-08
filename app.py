@@ -3,6 +3,7 @@ import json
 import os
 import hashlib
 import base64
+import openai  # OpenAI library GPT-3.5 use pannurathukku
 from openai import OpenAI 
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
@@ -146,19 +147,23 @@ def find_date_partner_page():
         else:
             st.error("No matches found or there was an error in fetching matches.")
 
-client = OpenAI(
-  api_key=os.environ['OPENAI_API_KEY']  # Assuming the API key is set in the environment
-)
-
 def call_gpt3_to_find_matches(user, preference):
+    # Set up your GPT-3 API key
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+
+    # Ensure API key is present
+    if not openai.api_key:
+        print("OpenAI API key not set.")
+        return None
+
     # Prepare the prompt for GPT-3
     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
               f"find potential matches who are interested in {preference}.")
 
     try:
-        # Call to the GPT-3 API using the new method
-        response = client.Completions.create(
+        # Call to the GPT-3 API
+        response = openai.Completion.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
             max_tokens=150
@@ -173,6 +178,7 @@ def call_gpt3_to_find_matches(user, preference):
     except Exception as e:
         print(f"Error in GPT-3 call: {e}")
         return None
+
 
 
 def register_page():
