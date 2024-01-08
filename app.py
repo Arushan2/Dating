@@ -180,7 +180,7 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(prompt):
+def call_gpt3():
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
 
