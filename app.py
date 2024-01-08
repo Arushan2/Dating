@@ -184,17 +184,13 @@ def call_gpt3():
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
 
-    try:
-        response = client.completions.create(
-            model="gpt-3.5-turbo-instruct",
-            prompt="hi",
-            max_tokens=1000
-        )
-        return response.choices[0].text
-    except openai.error.OpenAIError as e:
-        # Log the error details for debugging
-        print(f"OpenAI API error: {e}")
-        return "An error occurred while processing your request."
+
+    response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt="hi",
+        max_tokens=1000
+    )
+    return response.choices[0].text
 
 def register_page():
     file_name1 = "user_data.json"
