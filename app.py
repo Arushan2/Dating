@@ -166,7 +166,7 @@ def call_gpt3_to_find_matches(user, preference):
 
         # Check if the response is valid
         if response and 'choices' in response and len(response.choices) > 0:
-            return response.choices[0].text.strip()
+            return response.choices[0].text
         else:
             print("Invalid response from GPT-3 API.")
             return None
