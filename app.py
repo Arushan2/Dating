@@ -3,7 +3,7 @@ import json
 import os
 import hashlib
 import base64
-import openai  # OpenAI library GPT-3.5 use pannurathukku
+import openai  # OpenAI library GPT-3.5 use pannurathukku 
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
     try:
@@ -116,39 +116,6 @@ def main():
     elif page == "Find Date Partner":
         find_date_partner_page()
 
-def call_gpt3_to_find_matches(user, preference):
-    # Set up your GPT API key
-    openai.api_key = os.getenv('OPENAI_API_KEY')
-
-    # Ensure API key is present
-    if not openai.api_key:
-        print("OpenAI API key not set.")
-        return None
-
-    # Prepare the prompt for GPT
-    prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
-              f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-              f"find potential matches who are interested in {preference}.")
-
-    try:
-        # Call to the GPT API with the latest model
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Replace with the latest model version if needed
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        # Check if the response is valid
-        if response and 'choices' in response and len(response.choices) > 0:
-            return response.choices[0].message['content'].strip()
-        else:
-            print("Invalid response from GPT API.")
-    except Exception as e:
-        print(f"Error in GPT call: {e}")
-        return None
-
 def find_date_partner_page():
     st.title("Find Your Date Partner")
     user_data_file = "user_data.json"
@@ -156,7 +123,7 @@ def find_date_partner_page():
 
     # Display user's details if logged in
     if 'logged_in_user_email' in st.session_state:
-        logged_in_user = find_user_by_email(st.session_state['logged_in_user_email'], user_data_file)
+        logged_in_user = find_user_by_email(st.session_state.logged_in_user_email, user_data_file)
         if logged_in_user:
             st.subheader(f"Welcome, {logged_in_user['name']}")
             show_user_details(logged_in_user)
@@ -171,13 +138,43 @@ def find_date_partner_page():
     preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
 
     if st.button("Find Matches"):
+        # Call GPT-3 to generate matching profiles based on user's preferences
         response = call_gpt3_to_find_matches(logged_in_user, preference)
-        st.write(response)
         if response:
             st.success("Here are your matches:")
             st.write(response)
         else:
             st.error("No matches found or there was an error in fetching matches.")
+
+def call_gpt3_to_find_matches(user, preference):
+    # Set up your GPT-3 API key
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+
+    # Ensure API key is present
+    if not openai.api_key:
+        print("OpenAI API key not set.")
+        return None
+
+    # Prepare the prompt for GPT-3
+    prompt = ("Hiii")
+
+    try:
+        # Call to the GPT-3 API
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            max_tokens=150
+        )
+
+        # Check if the response is valid
+        if response and 'choices' in response and len(response.choices) > 0:
+            return response.choices[0].text.strip()
+        else:
+            print("Invalid response from GPT-3 API.")
+            return None
+    except Exception as e:
+        print(f"Error in GPT-3 call: {e}")
+        return None
 
 
 
