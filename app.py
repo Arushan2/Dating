@@ -3,7 +3,9 @@ import json
 import os
 import hashlib
 import base64
-import openai  # OpenAI library GPT-3.5 use pannurathukku
+import openai 
+from openai import OpenAI
+ # OpenAI library GPT-3.5 use pannurathukku
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
     try:
@@ -139,7 +141,7 @@ def find_date_partner_page():
 
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
-        response = call_gpt3_to_find_matches(logged_in_user, preference)
+        response = call_gpt3()
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -147,38 +149,52 @@ def find_date_partner_page():
             st.write(response)
             st.error("No matches found or there was an error in fetching matches.")
 
-def call_gpt3_to_find_matches(user, preference):
-    # Set up your GPT-3 API key
-    openai.api_key = os.getenv('OPENAI_API_KEY')
+# def call_gpt3_to_find_matches(user, preference):
+#     # Set up your GPT-3 API key
+#     openai.api_key = os.getenv('OPENAI_API_KEY')
 
-    # Ensure API key is present
-    if not openai.api_key:
-        print("OpenAI API key not set.")
-        return None
+#     # Ensure API key is present
+#     if not openai.api_key:
+#         print("OpenAI API key not set.")
+#         return None
 
-    # Prepare the prompt for GPT-3
-    prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
-              f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-              f"find potential matches who are interested in {preference}.")
+#     # Prepare the prompt for GPT-3
+#     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
+#               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
+#               f"find potential matches who are interested in {preference}.")
+
+#     try:
+#         # Call to the GPT-3 API
+#         response = openai.Completion.create(
+#             model="gpt-3.5-turbo-instruct",
+#             prompt=prompt,
+#             max_tokens=150
+#         )
+
+#         # Check if the response is valid
+#         if response and 'choices' in response and len(response.choices) > 0:
+#             return response.choices[0].text.strip()
+#         else:
+#             print("Invalid response from GPT-3 API.")
+#     except Exception as e:
+#         print(f"Error in GPT-3 call: {e}")
+#         return None
+
+def call_gpt3(prompt):
+    openai.api_key = os.environ.get('OPENAI_API_KEY')
+    client = OpenAI()
 
     try:
-        # Call to the GPT-3 API
-        response = openai.Completion.create(
+        response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
-            prompt=prompt,
-            max_tokens=150
+            prompt="hi",
+            max_tokens=1000
         )
-
-        # Check if the response is valid
-        if response and 'choices' in response and len(response.choices) > 0:
-            return response.choices[0].text.strip()
-        else:
-            print("Invalid response from GPT-3 API.")
-    except Exception as e:
-        print(f"Error in GPT-3 call: {e}")
-        return None
-
-
+        return response.choices[0].text
+    except openai.error.OpenAIError as e:
+        # Log the error details for debugging
+        print(f"OpenAI API error: {e}")
+        return "An error occurred while processing your request."
 
 def register_page():
     file_name1 = "user_data.json"
