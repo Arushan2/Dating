@@ -188,7 +188,7 @@ def call_gpt3():
     response = client.completions.create(
         model="gpt-3.5-turbo-instruct",
         prompt="hi",
-        max_tokens=1000
+        max_tokens=100
     )
     return response.choices[0].text
 
