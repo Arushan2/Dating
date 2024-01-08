@@ -3,7 +3,7 @@ import json
 import os
 import hashlib
 import base64
-import openai  # OpenAI library GPT-3.5 use pannurathukku 
+import openai  # OpenAI library GPT-3.5 use pannurathukku
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
     try:
@@ -156,12 +156,14 @@ def call_gpt3_to_find_matches(user, preference):
         return None
 
     # Prepare the prompt for GPT-3
-    prompt = ("Hiii")
+    prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
+              f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
+              f"find potential matches who are interested in {preference}.")
 
     try:
         # Call to the GPT-3 API
         response = openai.Completion.create(
-            model="text-davinci-003",
+            model="gpt-3.5-turbo-instruct",
             prompt=prompt,
             max_tokens=150
         )
