@@ -152,7 +152,7 @@ client = OpenAI(
 
 def call_gpt3_to_find_matches(user, preference):
     # Prepare the prompt for GPT-3
-    prompt = (hi)
+    prompt = ("hi")
 
     try:
         # Call to the GPT-3 API using the new method
