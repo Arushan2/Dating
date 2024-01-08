@@ -152,9 +152,7 @@ client = OpenAI(
 
 def call_gpt3_to_find_matches(user, preference):
     # Prepare the prompt for GPT-3
-    prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
-              f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-              f"find potential matches who are interested in {preference}.")
+    prompt = (hi)
 
     try:
         # Call to the GPT-3 API using the new method
