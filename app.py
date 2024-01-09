@@ -106,17 +106,17 @@ def load_image_by_email(email, file_name):
     return None
 
 
-# def main():
-#     st.title("Mams")
-#     page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Find Date Partner" , "Developer Options"])
-#     if page == "Register":
-#         register_page()
-#     elif page == "Login":
-#         login_page()
-#     elif page == "Developer Options":
-#         developer_page()
-#     elif page == "Find Date Partner":
-#         find_date_partner_page()
+def main():
+    st.title("Mams")
+    page = st.sidebar.selectbox("Choose your page", ["Register", "Login","Find Date Partner" , "Developer Options"])
+    if page == "Register":
+        register_page()
+    elif page == "Login":
+        login_page()
+    elif page == "Developer Options":
+        developer_page()
+    elif page == "Find Date Partner":
+        find_date_partner_page()
 
 def find_date_partner_page():
     st.title("Find Your Date Partner")
