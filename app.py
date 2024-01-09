@@ -185,7 +185,7 @@ def find_date_partner_page():
 def call_gpt3(formatted_data,preference_options):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-    prompt = f"Based on the following user profiles: {formatted_data}. Find potential matches who are interested in {preference_options}."
+    prompt = f"Based on the following user profiles: {formatted_data}. Find potential matches who are interested in opposite gender  {preference_options},give me the the full details."
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
