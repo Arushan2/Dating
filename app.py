@@ -168,7 +168,7 @@ def find_date_partner_page():
 #         # Call to the GPT-3 API
 #         response = openai.Completion.create(
 #             model="gpt-3.5-turbo-instruct",
-#             prompt=prompt,
+#             prompt= prompt,
 #             max_tokens=150
 #         )
 
