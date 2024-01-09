@@ -113,8 +113,8 @@ def main():
         register_page()
     elif page == "Login":
         login_page()
-    elif page == "Developer Options":
-        developer_page()
+    # elif page == "Developer Options":
+    #     developer_page()
     elif page == "Find Date Partner":
         find_date_partner_page()
 
