@@ -140,11 +140,11 @@ def find_date_partner_page():
        # Select preference for matching
     preference_options = ['Hobbies', 'Job Field', 'Age Range', 'Religion']
     selected_preference = st.selectbox("Select your preference for matching", preference_options)
-
+    opposite_gender = "female" if logged_in_user['gender'].lower() == "male" else "male"
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
         formatted_data = format_data_for_gpt3(user_data)
-        response = call_gpt3(formatted_data,selected_preference)
+        response = call_gpt3(formatted_data,selected_preference,opposite_gender)
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -182,10 +182,10 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(formatted_data,preference_options):
+def call_gpt3(formatted_data,preference_options,opposite_gender):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-    prompt = f"Based on the following user profiles: {formatted_data}.  {preference_options},give me the the full details "
+    prompt = f"Based on the following user profiles: {formatted_data}.Find users of the gender: {opposite_gender}. {preference_options},give me the the full details "
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
