@@ -151,7 +151,7 @@ def find_date_partner_page():
             st.error("No matches found or there was an error in fetching matches.")
 
 # def call_gpt3_to_find_matches(user, preference):
-#     # Set up your GPT-3 API key
+#     # Set up your GPT-3 API key 
 #     openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #     # Ensure API key is present
