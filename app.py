@@ -4,7 +4,6 @@ import os
 import hashlib
 import base64
 import openai 
-from openai import OpenAI
  # OpenAI library GPT-3.5 use pannurathukku
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
