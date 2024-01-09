@@ -143,7 +143,8 @@ def find_date_partner_page():
 
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
-        response = call_gpt3(logged_in_user,selected_preference)
+        formatted_data = format_data_for_gpt3(user_data)
+        response = call_gpt3(formatted_data,selected_preference)
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -181,10 +182,10 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(logged_in_user,preference_options):
+def call_gpt3(formatted_data,preference_options):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-    prompt = f"Find date partners for a user with the following details: {logged_in_user}. Preference for matching: {preference_options}."
+    prompt = f"Based on the following user profiles: {formatted_data}. Find potential matches who are interested in {preference_options}."
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
@@ -196,6 +197,13 @@ def call_gpt3(logged_in_user,preference_options):
         # Log the error details for debugging
         print(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
+    
+def format_data_for_gpt3(user_data):
+    # Process and format user_data into a suitable string for the GPT-3 prompt
+    formatted_data = ""
+    for user in user_data:
+        formatted_data += f"Name: {user['name']}, Age: {user['age']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}; "
+    return formatted_data
 
 def register_page():
     file_name1 = "user_data.json"
