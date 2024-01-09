@@ -143,7 +143,7 @@ def find_date_partner_page():
 
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
-        response = call_gpt3(logged_in_user, selected_preference, user_data)
+        response = call_gpt3()
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -181,10 +181,10 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(prompt):
+def call_gpt3():
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-
+    prompt="hi"
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
