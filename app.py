@@ -60,20 +60,7 @@ def verify_login(email, password, file_name):
     return None
 
 
-# Function to find matches based on job field and age range
-# # Function to find matches based on job field and age range
-# def find_matches(user_data, age_range=5):
-#     matches = []
-#     for i, user in enumerate(user_data):
-#         if 'job_field' not in user or 'age' not in user or not isinstance(user['age'], int):
-#             continue  # Skip users without job_field or age or if age is not an integer
-#         for j, other_user in enumerate(user_data):
-#             if i != j and 'job_field' in other_user and 'age' in other_user and isinstance(other_user['age'], int):
-#                 same_job_field = user['job_field'] == other_user['job_field']
-#                 age_difference = abs(user['age'] - other_user['age'])
-#                 if same_job_field and age_difference <= age_range:
-#                     matches.append((user, other_user))
-#     return matches
+
 
 def show_user_details(user):
     if user and 'name' in user:
@@ -151,36 +138,6 @@ def find_date_partner_page():
         else:
             st.error("No matches found or there was an error in fetching matches.")
 
-# def call_gpt3_to_find_matches(user, preference):
-#     # Set up your GPT-3 API key 
-#     openai.api_key = os.getenv('OPENAI_API_KEY')
-
-#     # Ensure API key is present
-#     if not openai.api_key:
-#         print("OpenAI API key not set.")
-#         return None
-
-#     # Prepare the prompt for GPT-3
-#     prompt = (f"Based on the following user profile: Name: {user['name']}, Age: {user['age']}, "
-#               f"Sex: {user['sex']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}, "
-#               f"find potential matches who are interested in {preference}.")
-
-#     try:
-#         # Call to the GPT-3 API 
-#         response = openai.Completion.create(
-#             model="gpt-3.5-turbo-instruct",
-#             prompt=prompt,
-#             max_tokens=150
-#         )
-
-#         # Check if the response is valid
-#         if response and 'choices' in response and len(response.choices) > 0:
-#             return response.choices[0].text.strip()
-#         else:
-#             print("Invalid response from GPT-3 API.")
-#     except Exception as e:
-#         print(f"Error in GPT-3 call: {e}")
-#         return None
 
 def call_gpt3(formatted_data,preference_options,opposite_gender):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
