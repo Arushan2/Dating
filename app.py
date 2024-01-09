@@ -190,7 +190,7 @@ def call_gpt3(formatted_data,preference_options):
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
-            max_tokens=1000
+            max_tokens=150
         )
         return response.choices[0].text
     except openai.error.OpenAIError as e:
@@ -199,7 +199,7 @@ def call_gpt3(formatted_data,preference_options):
         return "An error occurred while processing your request."
     
 def format_data_for_gpt3(user_data):
-    # Process and format user_data into a suitable string for the GPT-3 prompt
+    # Process and format  user_data into a suitable string for the GPT-3 prompt
     formatted_data = ""
     for user in user_data:
         formatted_data += f"Name: {user['name']}, Age: {user['age']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}; "
