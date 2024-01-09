@@ -140,7 +140,7 @@ def find_date_partner_page():
        # Select preference for matching
     preference_options = ['Hobbies', 'Job Field', 'Age Range', 'Religion']
     selected_preference = st.selectbox("Select your preference for matching", preference_options)
-    opposite_gender = "female" if logged_in_user['gender'].lower() == "male" else "male"
+    opposite_gender = "female" if logged_in_user['sex'].lower() == "male" else "male"
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
         formatted_data = format_data_for_gpt3(user_data)
