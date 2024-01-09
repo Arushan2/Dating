@@ -165,7 +165,7 @@ def find_date_partner_page():
 #               f"find potential matches who are interested in {preference}.")
 
 #     try:
-#         # Call to the GPT-3 API
+#         # Call to the GPT-3 API 
 #         response = openai.Completion.create(
 #             model="gpt-3.5-turbo-instruct",
 #             prompt=prompt,
