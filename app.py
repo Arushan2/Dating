@@ -247,12 +247,12 @@ def login_page():
         user = verify_login(email, password, "email_password_data.json")
         if user:
             st.success("Login successful!")
+            if(st.button("Find My Date Partner")):
+                find_date_partner_page()
             # Store the logged-in user's email in the session state
             st.session_state.logged_in_user_email = email
 
             user_details = find_user_by_email(email, "user_data.json")
-            if(st.button("Find My Date Partner")):
-                find_date_partner_page()
             if user_details:
                 image_data = load_image_by_email(email, "image_email_data.json")
                 if image_data and image_data.get('image'):
