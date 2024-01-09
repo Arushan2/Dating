@@ -185,7 +185,7 @@ def find_date_partner_page():
 def call_gpt3(formatted_data,preference_options):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-    prompt = f"Based only from the following user profiles: {formatted_data}.  {preference_options},give me the the full details "
+    prompt = f"Based on the following user profiles: {formatted_data}.  {preference_options},give me the the full details "
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
@@ -198,16 +198,12 @@ def call_gpt3(formatted_data,preference_options):
         print(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
     
-def format_data_for_gpt3(user_data, specified_gender):
-    # Process and format user_data into a suitable string for the GPT-3 prompt
-    # Only include data for users whose gender is opposite to the specified gender
-    opposite_gender = 'male' if specified_gender.lower() == 'female' else 'female'
+def format_data_for_gpt3(user_data):
+    # Process and format  user_data into a suitable string for the GPT-3 prompt
     formatted_data = ""
     for user in user_data:
-        if user.get('gender', '').lower() == opposite_gender:
-            formatted_data += f"Name: {user['name']}, Age: {user['age']}, Gender: {user['gender']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}; "
+        formatted_data += f"Name: {user['name']}, Age: {user['age']}, Job Field: {user['job_field']}, Hobbies: {', '.join(user.get('hobbies', []))}; "
     return formatted_data
-
 
 def register_page():
     file_name1 = "user_data.json"
