@@ -251,6 +251,8 @@ def login_page():
             st.session_state.logged_in_user_email = email
 
             user_details = find_user_by_email(email, "user_data.json")
+            if(st.button("Find My Date Partner")):
+                find_date_partner_page()
             if user_details:
                 image_data = load_image_by_email(email, "image_email_data.json")
                 if image_data and image_data.get('image'):
