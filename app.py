@@ -177,7 +177,7 @@ def find_date_partner_page():
 #         else:
 #             print("Invalid response from GPT-3 API.")
 #     except Exception as e:
-#         print(f"Error in GPT-3 call: {e}")
+#         print(f"Error in GPT-3 call:  {e}")
 #         return None
 
 def call_gpt3(logged_in_user, preference, user_data):
