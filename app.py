@@ -201,10 +201,10 @@ def call_gpt3(formatted_data,preference_options):
         print(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
     
-def format_data_for_gpt3(user_data, specified_gender):
+def format_data_for_gpt3(user_data, user_gender_preference):
     # Process and format user_data into a suitable string for the GPT-3 prompt
     # Only include data for users whose gender is opposite to the specified gender
-    opposite_gender = 'male' if specified_gender.lower() == 'female' else 'female'
+    opposite_gender = 'male' if user_gender_preference.lower() == 'female' else 'female'
     formatted_data = ""
     for user in user_data:
         if user.get('gender', '').lower() == opposite_gender:
