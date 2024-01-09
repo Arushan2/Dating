@@ -140,8 +140,9 @@ def find_date_partner_page():
     preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
 
     if st.button("Find Matches"):
+        prompt="Hi i need help"
         # Call GPT-3 to generate matching profiles based on user's preferences
-        response = call_gpt3()
+        response = call_gpt3(prompt)
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -180,17 +181,21 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3():
+def call_gpt3(prompt):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
 
-
-    response = client.completions.create(
-        model="gpt-3.5-turbo-instruct",
-        prompt="hi",
-        max_tokens=100
-    )
-    return response.choices[0].text
+    try:
+        response = client.completions.create(
+            model="gpt-3.5-turbo-instruct",
+            prompt=prompt,
+            max_tokens=1000
+        )
+        return response.choices[0].text
+    except openai.error.OpenAIError as e:
+        # Log the error details for debugging
+        print(f"OpenAI API error: {e}")
+        return "An error occurred while processing your request."
 
 def register_page():
     file_name1 = "user_data.json"
