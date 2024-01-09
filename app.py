@@ -137,17 +137,17 @@ def find_date_partner_page():
         return
 
     st.subheader("Find Matches Based on Your Preferences")
-    preference = st.text_input("Enter your preference (e.g., hobbies, interests)")
+       # Select preference for matching
+    preference_options = ['Hobbies', 'Job Field', 'Age Range', 'Religion']
+    selected_preference = st.selectbox("Select your preference for matching", preference_options)
 
     if st.button("Find Matches"):
-        prompt="Hi i need help"
         # Call GPT-3 to generate matching profiles based on user's preferences
-        response = call_gpt3(prompt)
+        response = call_gpt3(logged_in_user, selected_preference, user_data)
         if response:
             st.success("Here are your matches:")
             st.write(response)
         else:
-            st.write(response)
             st.error("No matches found or there was an error in fetching matches.")
 
 # def call_gpt3_to_find_matches(user, preference):
@@ -181,21 +181,27 @@ def find_date_partner_page():
 #         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(prompt):
+def call_gpt3(logged_in_user, preference, user_data):
+    # Set up your GPT-3 API key
     openai.api_key = os.environ.get('OPENAI_API_KEY')
-    client = OpenAI()
+
+    # Prepare the user profile in the prompt
+    user_profile = f"User Profile: Name: {logged_in_user['name']}, Age: {logged_in_user['age']}, Sex: {logged_in_user['sex']}, Job Field: {logged_in_user['job_field']}, Hobbies: {', '.join(logged_in_user.get('hobbies', []))}"
+
+    # Prepare the prompt for GPT-3
+    prompt = f"{user_profile}. Find matching profiles from the following users based on {preference}: {json.dumps(user_data)}"
 
     try:
-        response = client.completions.create(
+        response = openai.Completion.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
-            max_tokens=1000
+            max_tokens=200
         )
         return response.choices[0].text
     except openai.error.OpenAIError as e:
-        # Log the error details for debugging
-        print(f"OpenAI API error: {e}")
+        st.error(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
+
 
 def register_page():
     file_name1 = "user_data.json"
