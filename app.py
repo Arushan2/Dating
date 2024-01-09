@@ -4,6 +4,7 @@ import os
 import hashlib
 import base64
 import openai 
+from openai import OpenAI
  # OpenAI library GPT-3.5 use pannurathukku
 # Function to load details from a JSON file with error handling
 def load_details(file_name):
@@ -167,7 +168,7 @@ def find_date_partner_page():
 #         # Call to the GPT-3 API
 #         response = openai.Completion.create(
 #             model="gpt-3.5-turbo-instruct",
-#             prompt= prompt,
+#             prompt=prompt,
 #             max_tokens=150
 #         )
 
@@ -177,30 +178,24 @@ def find_date_partner_page():
 #         else:
 #             print("Invalid response from GPT-3 API.")
 #     except Exception as e:
-#         print(f"Error in GPT-3 call:  {e}")
+#         print(f"Error in GPT-3 call: {e}")
 #         return None
 
-def call_gpt3(logged_in_user, preference, user_data):
-    # Set up your GPT-3 API key
+def call_gpt3(prompt):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
-
-    # Prepare the user profile in the prompt
-    user_profile = f"User Profile: Name: {logged_in_user['name']}, Age: {logged_in_user['age']}, Sex: {logged_in_user['sex']}, Job Field: {logged_in_user['job_field']}, Hobbies: {', '.join(logged_in_user.get('hobbies', []))}"
-
-    # Prepare the prompt for GPT-3
-    prompt = f"{user_profile}. Find matching profiles from the following users based on {preference}: {json.dumps(user_data)}"
+    client = OpenAI()
 
     try:
-        response = openai.Completion.create(
+        response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
-            max_tokens=200
+            max_tokens=1000
         )
         return response.choices[0].text
     except openai.error.OpenAIError as e:
-        st.error(f"OpenAI API error: {e}")
+        # Log the error details for debugging
+        print(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
-
 
 def register_page():
     file_name1 = "user_data.json"
