@@ -142,7 +142,7 @@ def find_date_partner_page():
 def call_gpt3(formatted_data,preference_options,opposite_gender):
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI()
-    prompt = f"Based on the following user profiles: {formatted_data}.Find users of the gender: {opposite_gender}. {preference_options},give me the the full details "
+    prompt = f"Based on the following user profiles: {formatted_data}.Find users of the gender: {opposite_gender}. {preference_options},give me the the full details in list view "
     try:
         response = client.completions.create(
             model="gpt-3.5-turbo-instruct",
