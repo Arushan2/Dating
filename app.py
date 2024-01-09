@@ -247,8 +247,6 @@ def login_page():
         user = verify_login(email, password, "email_password_data.json")
         if user:
             st.success("Login successful!")
-            if(st.button("Find My Date Partner")):
-                find_date_partner_page()
             # Store the logged-in user's email in the session state
             st.session_state.logged_in_user_email = email
 
