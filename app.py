@@ -129,7 +129,6 @@ def find_date_partner_page():
         if logged_in_user:
             st.subheader(f"Welcome, {logged_in_user['name']}")
             show_user_details(logged_in_user)
-            user_gender_preference = logged_in_user.get('gender_preference')
         else:
             st.error("User details not found. Please log in.")
             return
@@ -138,16 +137,14 @@ def find_date_partner_page():
         return
 
     st.subheader("Find Matches Based on Your Preferences")
-    # Select preference for matching
+       # Select preference for matching
     preference_options = ['Hobbies', 'Job Field', 'Age Range', 'Religion']
     selected_preference = st.selectbox("Select your preference for matching", preference_options)
 
     if st.button("Find Matches"):
         # Call GPT-3 to generate matching profiles based on user's preferences
-        # Ensure that the gender preference is considered
-        formatted_data = format_data_for_gpt3(user_data, user_gender_preference)
-        response = call_gpt3(formatted_data, selected_preference)
-        st.write(formatted_data)
+        formatted_data = format_data_for_gpt3(user_data)
+        response = call_gpt3(formatted_data,selected_preference)
         if response:
             st.success("Here are your matches:")
             st.write(response)
@@ -201,10 +198,10 @@ def call_gpt3(formatted_data,preference_options):
         print(f"OpenAI API error: {e}")
         return "An error occurred while processing your request."
     
-def format_data_for_gpt3(user_data, user_gender_preference):
+def format_data_for_gpt3(user_data, specified_gender):
     # Process and format user_data into a suitable string for the GPT-3 prompt
     # Only include data for users whose gender is opposite to the specified gender
-    opposite_gender = 'male' if user_gender_preference.lower() == 'female' else 'female'
+    opposite_gender = 'male' if specified_gender.lower() == 'female' else 'female'
     formatted_data = ""
     for user in user_data:
         if user.get('gender', '').lower() == opposite_gender:
